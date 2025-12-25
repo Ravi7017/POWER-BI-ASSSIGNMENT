@@ -1,0 +1,364 @@
+Question 1 :  Define Power BI and What are the key components of the Power BI ecosystem? Briefly explain: 
+? Power BI Desktop 
+? Power BI Service 
+? Power BI Mobile 
+? Power BI Gateway
+ANSWER ;-Power BI is a business analytics and data visualization tool developed by Microsoft that helps organizations connect to multiple data sources, transform data, create interactive reports and dashboards, and share insights across the organization to support data-driven decision-making.
+Key Components of the Power BI Ecosystem
+1. Power BI DesktopA Windows-based application used to connect to data, clean and transform it using Power Query, and build data models with DAX.Allows users to create interactive reports and visualizations.Reports created in Power BI Desktop are published to the Power BI Service.
+2. Power BI Service (PowerBI.com)A cloud-based platform for hosting, sharing, and collaborating on reports and dashboards.Enables users to create dashboards, schedule data refreshes, and share content with others.Supports workspaces, apps, row-level security (RLS), and AI features.
+3. Power BI MobileMobile applications available on iOS, Android, and Windows devices.Allows users to view and interact with dashboards and reports on the go.Provides features like alerts, annotations, and offline access to key dashboards.
+4. Power BI GatewayActs as a bridge between on-premises data sources and the Power BI Service.Enables scheduled refresh and live queries for on-premises databases such as SQL Server.Ensures secure data transfer without moving data permanently to the cloud.
+
+Question 2 :   Compare the following Power BI visuals: 
+? Pie Chart vs Donut Chart 
+? Bar Chart vs Column Chart 
+When would you prefer one over the other? Give one example for each pair. 
+
+ANSWER;-1?? Pie Chart vs Donut Chart
+Pie ChartDisplays data as slices of a circle to show part-to-whole relationships.Best used when there are few categories (2–5).Simple and easy to understand but can become cluttered with many categories.When to use:When you want a quick, straightforward comparison of proportions.
+Example:Showing market share (%) of 4 product brands.
+Donut ChartSimilar to a pie chart but has a hole in the center.Allows placement of total value or key metric in the center.More visually appealing and slightly easier to read than a pie chart.When to use:When you want to show part-to-whole with an emphasized total.
+Example:Displaying sales contribution by product category, with total sales shown in the center.
+2?? Bar Chart vs Column Chart
+Bar ChartUses horizontal bars.Ideal for long category names and easier category comparison.Better for ranking items.When to use;When comparing many categories or when labels are lengthy.
+Example:Comparing profit by product sub-category.
+Column ChartUses vertical columns.Best suited for time-based data or showing trends.More intuitive for chronological comparisons.When to use:When analyzing changes over time.
+Example:Showing monthly sales trends over a year.
+
+Question 3 :   Explain the significance of: 
+? Star schema vs Snowflake schema 
+? Primary key vs Foreign key in relationships (Power BI) 
+Why is cardinality important? 
+ANSWERS;-Star SchemaConsists of one central fact table connected directly to dimension tables.Dimension tables are denormalized.Simpler design, fewer joins, and better performance in Power BI.Easier to understand and maintain.Significance / When to use:Preferred for Power BI and analytical reporting.Improves DAX performance and simplifies relationships.
+Example:FactSales connected to DimDate, DimCustomer, DimProduct.
+Snowflake SchemaDimension tables are normalized into multiple related tables.Reduces data redundancy but increases complexity.Requires more joins, which can impact performance.Significance / When to use:Useful when dimension tables are very large and highly normalized.More complex to model and harder for business users.
+Example:Product ? Sub-Category ? Category stored in separate tables.
+Primary KeyA unique identifier in a dimension table.Ensures each row is uniquely identifiable.Used on the “one” side of a relationship.Example:ProductID in the Product dimension
+Foreign KeyA column in the fact table that references the primary key.Used on the “many” side of a relationship.Example:ProductID in the Sales fact table.
+
+Question 4 :  Differentiate between: 
+? Calculated column vs Measure Also, define Row context and Filter context with simple examples. 
+ANSWERS;-Calculated ColumnCalculated row by row when data is refreshed.Stored physically in the model and increases model size.Uses row context by default.Values do not change with slicers or filters (except refresh)Example (Calculated Column):Profit = 'Sales'[Sales] - 'Sales'[Cost]
+When to use:For categorization, flags, or columns needed in relationships or slicers.
+Measure
+Calculated at query time (on the fly).
+Not stored in the model ? better performance.
+Uses filter context.
+Values change dynamically based on slicers and filters.
+Example (Measure):Total Profit = SUM('Sales'[Profit])
+Row Context
+Definition
+
+Row context means DAX evaluates one row at a time, similar to a loop in Excel.Example Discount Amount = 'Sales'[Sales] * 'Sales'[Discount]
+Filter ContextDefinitionFilter context is the set of filters applied to a calculation from:Slicers,Visual filters,Rows/columns in a visual,Page or report filters
+ExampleTotal Sales = SUM('Sales'[Sales])
+
+Question 5:  What is the difference between a report and a dashboard in Power BI? 
+ANSWERS;-Power BI ReportA report is a multi-page, interactive document created in Power BI Desktop.It is built using datasets and data models with rich visuals, slicers, and filters.Users can drill down, drill through, and interact with visuals.Reports are published to the Power BI Service for sharing.
+Example:A sales report with multiple pages such as Sales Overview, Region Analysis, and Product Performance.
+Power BI DashboardA dashboard is a single-page canvas available only in the Power BI Service.Created by pinning visuals from one or multiple reports.Provides a high-level summary and is less interactive than reports.Supports real-time tiles and alerts.
+Example:An executive dashboard showing Total Sales, Profit, Top Region, and KPIs in one view.
+Key Differences Summary
+Feature Report	Dashboard
+Pages	Multiple	Single
+Creation	Power BI Desktop	Power BI Service
+Interactivity	High (filters, drill)	Limited
+Data Sources	One dataset	Multiple datasets
+Purpose	Detailed analysis	High-level monitoring
+ConclusionUse reports for in-depth data analysis and exploration.Use dashboards for quick insights and executive-level monitoring.
+
+Question 6 :  Using the Sample Superstore dataset: 
+? Create a Clustered Bar Chart to display Total Sales by Sub-Category 
+? Create a Donut Chart for Sales % by Region 
+Provide screenshots of both visuals. 
+
+ANSWERS;-Clustered Bar Chart – Total Sales by Sub-CategoryPurpose:To compare total sales performance across different product sub-categories.
+Power BI Fields Used:Axis: Sub-Category,Values: Total Sales (SUM)
+
+
+Donut Chart – Sales % by RegionPurpose:To visualize the percentage contribution of each region to overall sales.
+Power BI Fields Used:Legend: Region,Values: Total Sales (SUM)
+
+
+Clustered Bar Chart
+Insert Clustered Bar Chart
+Drag Sub-Category ? Axis
+Drag Sales ? Values
+Ensure aggregation is Sum
+
+Donut Chart
+Insert Donut Chart
+Drag Region ? Legend
+Drag Sales ? Values
+Turn on Data labels (%
+
+Question 7 : Write and apply the following measures: 
+? Total Profit = SUM([Profit]) 
+? Average Discount = AVERAGE([Discount]) 
+Display both in a KPI Card, and use a Line Chart to show profit trend over 
+months. Add visuals and DAX formulas.
+ANSWERS;-DAX MeasuresCreate the following measures in Power BI ? Modeling ? New Measure:
+Total Profit
+Total Profit = SUM('Global_Superstore2'[Profit])
+Average Discount
+Average Discount = AVERAGE('Global_Superstore2'[Discount])
+
+2?? KPI Card Visual
+Visual Setup in Power BI
+Insert Card visual
+Add Total Profit measure
+Insert another Card visual
+Add Average Discount measure
+Format:Currency for Profit,Percentage for Discount
+
+KPI Cards Screenshot:
+
+
+3?? Line Chart – Profit Trend Over Months
+Visual Setup in Power BI
+Insert Line Chart
+Drag Order Date ? X-Axis
+Set date hierarchy to Month
+Drag Total Profit ? Values
+
+ Line Chart Screenshot:
+
+
+
+4?? What These Visuals Show (Quick Interpretation)
+Total Profit KPI highlights overall business profitability.
+Average Discount KPI indicates pricing and discounting behavior.
+Line chart reveals monthly profit fluctuations and seasonal trends.
+Helps identify high-performing months and periods of profit decline.
+
+Question 8 :  
+Implement a DAX measure that calculates the percentage of total sales by 
+product category. 
+Product_category                                                                        Sales_Amount 
+Electronics                                                                                              5000
+ Clothing                                                                                                  3000 
+Home Appliances                                                                                   7000 
+Books                                                                                                       2000
+Tables & Chairs                                                                                        8000 
+Toy                                                                                                             1500 
+Sports Equipment                                                                                   1200 
+Office Supplies                                                                                        1000
+Beauty Products                                                                                     4400 
+Garden Supplies                                                                                     1000 
+Jewelry                                                                                                    1800 
+Automative                                                                                              2600
+
+ANSWERS;-DAX Measure – Percentage of Total Sales by Product Category
+Assume:
+   Table name: Sales
+    Columns:
+        Product_category
+        Sales_Amount
+
+DAX Formula
+% of Total Sales =
+DIVIDE(
+    SUM(Sales[Sales_Amount]),
+    CALCULATE(
+        SUM(Sales[Sales_Amount]),
+        ALL(Sales[Product_category])
+    )
+)
+Format this measure as Percentage (%) in Power BI
+
+Input Data
+Product Category	Sales Amount
+Electronics	5000
+Clothing	3000
+Home Appliances	7000
+Books	2000
+Tables & Chairs	8000
+Toy	1500
+Sports Equipment	1200
+Office Supplies	1000
+Beauty Products	4400
+Garden Supplies	1000
+Jewelry	1800
+Automotive	2600
+Total Sales Calculation 5000+3000+7000+2000+8000+1500+1200+1000+4400+1000+1800+2600 =38,500
+Expected Output – Percentage of Total Sales
+Product Category	Sales Amount	                  % of Total Sales
+Electronics	                        5000	                     12.99%
+Clothing	                       3000	                      7.79%
+Home Appliances	         7000	                     18.18%
+Books	                                      2000	                     5.19%
+Tables & Chairs	                        8000	                   20.78%
+Toy	                                      1500	                   3.90%
+Sports Equipment	          1200	                   3.12%
+Office Supplies	                        1000	                    2.60%
+Beauty Products	          4400	                   11.43%
+Garden Supplies	          1000	                  2.60%
+Jewelry                                      1800	                 4.68%
+Automotive	                      2600	                 6.75%
+How to Use This Measure in Power BI
+Add Product_category to a Table / Bar / Donut Chart
+Add:
+Sales_Amount
+% of Total Sales
+Apply slicers ? percentages update dynamically
+
+
+Question 9 : 
+? Create a DAX Measure for Total Profit 
+? Use it in a Waterfall Chart to analyze how different Sub-Categories contribute to 
+overall profit 
+? Add a Slicer for Region to filter the visual 
+? Write brief business insights (4–5 lines) from the chart and provide 2–3 data-driven 
+recommendations to improve profit. 
+Provide a steps, screenshot of the Waterfall chart and the DAX formula 
+
+ANSWERS;-1?? DAX Measure – Total Profit
+Create this measure in Power BI Desktop ? Modeling ? New Measure:
+Total Profit = SUM('Global_Superstore2'[Profit])
+This measure dynamically recalculates profit based on filters such as Region and Sub-Category.
+
+
+Business Insights (4–5 Lines)A few sub-categories contribute the majority of total profit, indicating strong product concentration.Certain sub-categories show negative or low profit, pulling down overall profitability.Regional filtering reveals that some sub-categories perform well in specific regions but poorly in others.High sales volume does not always translate to high profit, highlighting margin inefficiencies.Profit volatility across sub-categories suggests pricing and cost optimization opportunities.
+
+5?? Data-Driven Recommendations (2–3)
+Review and optimize loss-making sub-categories by adjusting pricing, reducing discounts, or renegotiating supplier costs.
+Increase investment in high-profit sub-categories, focusing marketing and inventory efforts where margins are strongest.
+Apply region-specific strategies, scaling successful sub-categories from high-performing regions to underperforming ones.
+
+Question 10 :  
+Scenario: VitaTrack Wellness, a digital health company in FitZone, has collected data on users’ daily habits and health vitals. The analytics team is tasked with drawing actionable insights from this data to improve lifestyle suggestions and prevent heart-related 
+risks. 
+Your Task: Using the provided dataset (includes Age, Gender, BMI, Steps, Calories, Sleep, Heart Rate, Blood Pressure, Smoking, Alcohol, Exercise, Diabetic & Heart Disease status): 
+Build a one-page Power BI dashboard that answers: 
+1. Are users maintaining a balanced lifestyle (Steps, Sleep, Calories) 
+2. What lifestyle patterns (Smoking, Alcohol, BMI, etc.) indicate heart disease risk? 
+3. Is there any visible relationship between Sleep and Physical Activity? 
+4. How does BMI vary across Age Groups and Genders? 
+5. What is the impact of smoking and alcohol on heart rate and blood pressure? 
+6. Segment people based on their health activity to suggest lifestyle changes
+
+ANSWERS;-Dashboard Objective
+To analyze users’ daily habits and health vitals to:
+Promote balanced lifestyles
+Identify heart-disease risk patterns
+Enable early preventive recommendations
+
+Are users maintaining a balanced lifestyle? (Steps, Sleep, Calories)
+Recommended Visuals
+KPI Cards
+     Avg Daily Steps
+     Avg Sleep Hours
+     Avg Calories Burned
+Clustered Column Chart
+    X-axis: User Category / Age Group
+   Values: Avg Steps, Avg Sleep, Avg Calories
+
+DAX Measures
+Avg Steps = AVERAGE(Health[Steps])
+Avg Sleep Hours = AVERAGE(Health[Sleep])
+Avg Calories = AVERAGE(Health[Calories])
+InsightUsers with 7–8 hours sleep and 7k–10k steps show healthier calorie balance.Low activity users often compensate with higher calorie intake.
+
+Lifestyle patterns indicating heart disease risk
+Recommended Visuals
+Stacked Bar Chart
+        Axis: Smoking, Alcohol
+       Legend: Heart Disease (Yes/No)
+Table
+     BMI Category, Smoking, Alcohol, Heart Disease %
+Key DAX
+Heart Disease Rate =
+DIVIDE(
+    CALCULATE(COUNTROWS(Health), Health[HeartDisease] = "Yes"),
+    COUNTROWS(Health)
+)
+
+Insight
+Heart disease prevalence is significantly higher among:
+Smokers
+High BMI individuals
+Alcohol consumers with low exercise
+
+Relationship between Sleep and Physical Activity
+Recommended Visual
+Scatter Chart
+      X-axis: Steps
+      Y-axis: Sleep Hours
+      Size: Calories
+      Legend: Heart Disease Status
+Insight
+Moderate physical activity correlates with better sleep quality
+Very high or very low activity shows reduced sleep duration
+Poor sleep + inactivity increases heart risk
+
+BMI variation across Age Groups and Gender
+Recommended Visuals
+Clustered Column Chart
+       X-axis: Age Group
+      Values: Avg BMI
+     Legend: Gender
+     Slicer: Gender
+DAX
+Avg BMI = AVERAGE(Health[BMI])
+
+Insight
+BMI increases with age, especially after 40+
+Male users show higher BMI variance
+Female BMI stabilizes with consistent activity
+
+Impact of Smoking & Alcohol on Heart Rate and Blood Pressure
+Recommended Visuals
+Clustered Bar Chart
+      Axis: Smoking / Alcohol
+     Values: Avg Heart Rate
+ Line or Bar Chart
+         Values: Avg Blood Pressure
+
+DAX Measures
+Avg Heart Rate = AVERAGE(Health[HeartRate])
+Avg Blood Pressure = AVERAGE(Health[BloodPressure])
+
+Insight
+Smokers have higher resting heart rate and BP
+Alcohol consumers show elevated BP even with moderate activity
+Combined smoking + alcohol is the highest risk group
+
+Health Activity Segmentation for Lifestyle Suggestions
+Calculated Column – Health Segment
+Health Segment =
+SWITCH(
+    TRUE(),
+    Health[Steps] >= 8000 && Health[Sleep] >= 7, "Active & Healthy",
+    Health[Steps] < 5000 && Health[Sleep] < 6, "Sedentary & High Risk",
+    "Moderately Active"
+)
+Recommended Visual
+Donut Chart
+        Legend: Health Segment
+       Values: Count of Users
+
+Usage
+Enables personalized lifestyle recommendations
+Helps wellness team target high-risk groups
+
+Final Dashboard Layout (One Page)
+Section                                                                                	Visual
+Top KPIs	                                                         Steps, Sleep, Calories
+Lifestyle Balance	                                                  Column Chart
+Heart Risk Factors	                                                 Stacked Bar
+Sleep vs Activity	                                                  Scatter Plot
+BMI Analysis	                                                     Column by Age & Gender
+Smoking & Alcohol Impact	                                  Bar Charts
+User Segmentation	                                              Donut Chart
+Filters	                                                                       Age Group, Gender
+Key Business Insights
+Balanced sleep and activity significantly reduce heart-risk indicators.
+Smoking and alcohol sharply elevate heart rate and blood pressure.
+BMI is a strong predictor of heart disease, especially in older users.
+Sedentary users show overlapping risk factors across vitals.
+
+Actionable Recommendations
+Push personalized alerts for users with low sleep and activity.
+Target smoking & alcohol users with heart-risk prevention programs.
+Promote step-based challenges to move users into “Active & Healthy” segment.
